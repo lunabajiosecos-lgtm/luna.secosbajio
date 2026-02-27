@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+  
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUNABAJIO</title>
+    <style>
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+html{
+    scroll-behavior: smooth;
+}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }   
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #ffffff;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 50px;
+        }
+
+        .nav-left a, .nav-right a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .nav-left a:hover, .nav-right a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== HERO SLIDER ===== */
+        .hero-slider {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-imagen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(139, 0, 0, 0.3));
+            z-index: 1;
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            width: 80%;
+            max-width: 800px;
+            color: #ffffff;
+        }
+
+        .slide-titulo {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            text-shadow: 4px 4px 0 #8b0000;
+        }
+
+        .slide-descripcion {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+     
+        .slide-btn-moderno {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 14px 40px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+        }
+
+        .slide-btn-moderno:hover {
+            background: #8b0000;
+            transform: translateY(-2px);
+            gap: 15px;
+            box-shadow: 0 10px 25px rgba(139, 0, 0, 0.4);
+        }
+
+       
+        .slider-flecha {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .slider-flecha:hover {
+            background: #8b0000;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-flecha.izquierda {
+            left: 30px;
+        }
+
+        .slider-flecha.derecha {
+            right: 30px;
+        }
+
+        .slider-flecha svg {
+            width: 24px;
+            height: 24px;
+        }
+
+       
+        .slider-indicadores {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .indicador {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicador.active {
+            background: #8b0000;
+            border-color: #ffffff;
+            transform: scale(1.2);
+        }
+
+       
+        .seccion {
+            padding: 100px 0;
+        }
+
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .titulo-seccion {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+      
+
+  
+        #catalago {
+            background: #d2c9ae;
+            padding: 80px 0;
+        }
+
+        #catalago .titulo-seccion {
+            color: #333333;
+        }
+
+        .grid-catalogo {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .producto-card {
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .producto-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #8b0000;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .producto-card img:hover {
+            transform: scale(1.05);
+            border-color: #333;
+        }
+
+        .producto-card h3 {
+            color: #333333;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .btn-cotizar {
+            display: inline-block;
+            background: #8b0000;
+            color: white;
+            padding: 10px 30px;
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid #8b0000;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cotizar:hover {
+            background: transparent;
+            color: #333;
+            border-color: #333;
+        }
+
+       
+        #contacto {
+            background: #050505;
+            text-align: center;
+        }
+
+        .info-contacto p {
+            color: #cccccc;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+       
+        .footer {
+            background: #000000;
+            color: #666;
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #8b0000;
+        }
+
+        
+        @media (max-width: 992px) {
+            .slide-titulo {
+                font-size: 3.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 25px;
+            }
+
+            .nav-left, .nav-right {
+                gap: 25px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-left a, .nav-right a {
+                font-size: 12px;
+            }
+
+            .slide-titulo {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .slide-descripcion {
+                font-size: 1rem;
+            }
+
+            .slider-flecha {
+                width: 40px;
+                height: 40px;
+            }
+
+            .slider-flecha.izquierda {
+                left: 15px;
+            }
+
+            .slider-flecha.derecha {
+                right: 15px;
+            }
+
+            .titulo-seccion {
+                font-size: 2rem;
+            }
+
+            #historia p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .nav-left {
+                gap: 15px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .nav-left a, .nav-right a {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+
+            .slide-titulo {
+                font-size: 2rem;
+            }
+
+            .grid-catalogo {
+                gap: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    
+<header class="navbar">
+    <style>
+        @media (max-width: 768px) {
+            .nav-left, .nav-right {
+                display: none !important;
+            }
+            .navbar {
+                justify-content: center !important;
+            }
+            .logo {
+                position: static !important;
+                transform: none !important;
+                font-size: 22px !important;
+            }
+        }
+    </style>
+
+    <nav class="nav-left">
+        <a href="#historia-premium">HISTORIA</a>
+        <a href="#catalago">CATÁLOGO</a>
+    </nav>
+    
+    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" style="text-decoration: none; position: absolute; left: 50%; transform: translateX(-50%);">
+        <div class="logo" style="position: static; transform: none;">LUNABAJIO</div>
+    </a>
+    
+    <nav class="nav-right">
+        <a href="#contacto-ultra">CONTACTO</a>
+    </nav>
+</header>
+    <section id="inicio" class="hero-slider">
+
+<style>
+
+/* ===== HERO ===== */
+.hero-slider{
+    position:relative;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* CONTENEDOR */
+.slider-container{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+/* SLIDE */
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:opacity 1.2s ease-in-out;
+}
+
+.slide.active{
+    opacity:1;
+    z-index:1;
+}
+
+/* IMAGEN CON ZOOM SUAVE */
+.slide-imagen{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    animation:zoomHero 12s ease-in-out infinite alternate;
+}
+
+@keyframes zoomHero{
+    from{ transform:scale(1); }
+    to{ transform:scale(1.08); }
+}
+
+/* OVERLAY PREMIUM */
+.slide-overlay{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(20,10,5,0.8));
+}
+
+/* CONTENIDO */
+.slide-content{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    color:white;
+    max-width:800px;
+    padding:20px;
+    opacity:0;
+    transform:translate(-50%,-40%);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.slide.active .slide-content{
+    opacity:1;
+    transform:translate(-50%,-50%);
+}
+
+/* TITULO */
+.slide-titulo{
+    font-size:4rem;
+    letter-spacing:6px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+
+/* DESCRIPCION */
+.slide-descripcion{
+    font-size:1.2rem;
+    margin-bottom:30px;
+    color:#ddd;
+}
+
+/* BOTON */
+.slide-btn-moderno{
+    display:inline-block;
+    padding:14px 40px;
+    border-radius:50px;
+    background:#8b0000;
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:2px;
+    transition:0.4s cubic-bezier(.19,1,.22,1);
+    border:2px solid #8b0000;
+}
+
+.slide-btn-moderno:hover{
+    background:transparent;
+    transform:translateY(-5px);
+}
+
+/* FLECHAS */
+.slider-flecha{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    border:none;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.slider-flecha:hover{
+    background:#8b0000;
+    transform:translateY(-50%) scale(1.1);
+}
+
+.izquierda{ left:30px; }
+.derecha{ right:30px; }
+
+/* INDICADORES */
+.slider-indicadores{
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+}
+
+.indicador{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#aaa;
+    transition:0.4s;
+}
+
+.indicador.active{
+    background:#8b0000;
+    transform:scale(1.3);
+}
+
+/* PARTICULAS */
+.hero-slider::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-image:url("img/textura-premium.png");
+    opacity:0.05;
+    pointer-events:none;
+}
+
+/* SCROLL INDICATOR */
+.scroll-indicator{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:30px;
+    height:50px;
+    border:2px solid white;
+    border-radius:20px;
+}
+
+.scroll-indicator::after{
+    content:"";
+    position:absolute;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:6px;
+    height:6px;
+    background:white;
+    border-radius:50%;
+    animation:scrollMove 2s infinite;
+}
+
+@keyframes scrollMove{
+    0%{ opacity:0; transform:translate(-50%,0); }
+    50%{ opacity:1; }
+    100%{ opacity:0; transform:translate(-50%,15px); }
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .slide-titulo{
+        font-size:2.2rem;
+    }
+    .slide-descripcion{
+        font-size:1rem;
+    }
+}
+
+
+</style>
+
+<div class="slider-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+        <img src="img/historia-fondo.jpg" class="slide-imagen">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <h2 class="slide-titulo">NUESTRA HISTORIA</h2>
+            <p class="slide-descripcion">Tradición familiar en el corazón del Bajío mexicano</p>
+            <a href="#historia-premium" class="slide-btn-moderno">CONOCER MÁS →</a>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+        <img src="img/catalogo-fondo.jpg" class="slide-imagen">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <h2 class="slide-titulo">CHILES DEL BAJÍO</h2>
+            <p class="slide-descripcion">Guajillo, Mulato y Pasilla selectos</p>
+            <a href="#catalago" class="slide-btn-moderno">VER PRODUCTOS →</a>
+        </div>
+    </div>
+
+    <!-- FLECHAS -->
+    <button class="slider-flecha izquierda" id="flecha-izquierda">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+
+    <button class="slider-flecha derecha" id="flecha-derecha">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </button>
+
+    <div class="slider-indicadores">
+        <span class="indicador active"></span>
+        <span class="indicador"></span>
+    </div>
+
+    <div class="scroll-indicator"></div>
+
+</div>
+
+<script>
+
+/* SLIDER FUNCIONAL */
+const slides = document.querySelectorAll('.slide');
+const indicadores = document.querySelectorAll('.indicador');
+let index = 0;
+
+function mostrarSlide(i){
+    slides.forEach(s=>s.classList.remove('active'));
+    indicadores.forEach(d=>d.classList.remove('active'));
+    slides[i].classList.add('active');
+    indicadores[i].classList.add('active');
+}
+
+document.getElementById("flecha-derecha").onclick = ()=>{
+    index = (index + 1) % slides.length;
+    mostrarSlide(index);
+}
+
+document.getElementById("flecha-izquierda").onclick = ()=>{
+    index = (index - 1 + slides.length) % slides.length;
+    mostrarSlide(index);
+}
+
+/* AUTO SLIDE */
+setInterval(()=>{
+    index = (index + 1) % slides.length;
+    mostrarSlide(index);
+},7000);
+
+</script>
+
+</section>
+
+
+
+<section id="catalago" class="catalogo-section">
+
+<style>
+.catalogo-section{
+    position:relative;
+    padding:140px 20px;
+    background:#f4efe7;
+    overflow:hidden;
+}
+
+/* Fondo Parallax */
+.catalogo-bg{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:130%;
+    background:url("img/fondo-chiles.jpg") center/cover no-repeat;
+    transform:translateY(0);
+    z-index:0;
+    opacity:0.07;
+    will-change:transform;
+}
+
+/* Overlay elegante */
+.catalogo-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom, #f4efe7 0%, #f4efe7ee 100%);
+    z-index:1;
+}
+
+/* Partículas */
+#particles{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+}
+
+/* Sello fondo */
+.sello-fondo{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    opacity:0.2;
+    z-index:1;
+}
+.sello-fondo img{
+    width:500px;
+}
+
+/* Header */
+.catalogo-header{
+    text-align:center;
+    margin-bottom:90px;
+    position:relative;
+    z-index:2;
+}
+
+.catalogo-header span{
+    display:block;
+    font-size:0.9rem;
+    color:#8b0000;
+    letter-spacing:6px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.catalogo-header h2{
+    font-size:3.2rem;
+    letter-spacing:5px;
+    margin:0;
+    color:#2d2d2d;
+    opacity:0;
+    transform:translateY(40px);
+    filter:blur(10px);
+    transition:all 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+.catalogo-header.visible h2{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+}
+
+.catalogo-header h2::after{
+    content:"";
+    display:block;
+    width:120px;
+    height:3px;
+    background:#8b0000;
+    margin:20px auto 0;
+}
+
+/* Grid */
+.catalogo-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:90px;
+    max-width:1200px;
+    margin:auto;
+    position:relative;
+    z-index:2;
+}
+
+/* Producto estilo Apple */
+.producto{
+    text-align:center;
+    opacity:0;
+    transform:translateY(80px) scale(0.95);
+    filter:blur(8px);
+    transition:all 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+.producto.visible{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    filter:blur(0);
+}
+
+.producto img{
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    border:4px solid #8b0000;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25);
+    transition:all 0.5s ease;
+}
+
+.producto:hover img{
+    transform:translateY(-25px) scale(1.08);
+    box-shadow:0 35px 70px rgba(0,0,0,0.35);
+}
+
+.producto h3{
+    margin:30px 0 15px;
+    font-size:1.4rem;
+    color:#333;
+    transition:0.4s;
+}
+
+.producto:hover h3{
+    color:#8b0000;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .catalogo-header h2{
+        font-size:2rem;
+    }
+    .sello-fondo img{
+        width:280px;
+    }
+}
+</style>
+
+<div class="catalogo-bg" id="parallax"></div>
+<div class="catalogo-overlay"></div>
+<canvas id="particles"></canvas>
+
+<div class="sello-fondo">
+    <img src="img/tu-logo.png" alt="Sello LUNASEK">
+</div>
+
+<div class="catalogo-header scroll-header">
+    <span>Selección Premium</span>
+    <h2>NUESTROS PRODUCTOS</h2>
+</div>
+
+<div class="catalogo-grid">
+
+    <!-- ANCHO -->
+    <div class="producto scroll">
+        <img src="img/ancho-detalle.jpg" alt="Chile Ancho">
+        <h3>Chile Ancho</h3>
+        <a href="#" class="btn-cotizar"
+           onclick="abrirModal('Chile Ancho'); return false;"
+           style="display:inline-block;background:#8b0000;color:white;padding:12px 35px;text-decoration:none;border-radius:50px;font-weight:600;letter-spacing:1px;transition:all 0.3s;border:2px solid #8b0000;"
+           onmouseover="this.style.background='transparent'; this.style.color='#8b0000'"
+           onmouseout="this.style.background='#8b0000'; this.style.color='white'">
+           COTIZAR
+        </a>
+    </div>
+
+    <!-- MULATO -->
+    <div class="producto scroll">
+        <img src="img/mulato-detalle.jpg" alt="Chile Mulato">
+        <h3>Chile Mulato</h3>
+        <a href="#" class="btn-cotizar"
+           onclick="abrirModal('Chile Mulato'); return false;"
+           style="display:inline-block;background:#8b0000;color:white;padding:12px 35px;text-decoration:none;border-radius:50px;font-weight:600;letter-spacing:1px;transition:all 0.3s;border:2px solid #8b0000;"
+           onmouseover="this.style.background='transparent'; this.style.color='#8b0000'"
+           onmouseout="this.style.background='#8b0000'; this.style.color='white'">
+           COTIZAR
+        </a>
+    </div>
+
+    <!-- PASILLA -->
+    <div class="producto scroll">
+        <img src="img/pasilla-detalle.jpg" alt="Chile Pasilla">
+        <h3>Chile Pasilla</h3>
+        <a href="#" class="btn-cotizar"
+           onclick="abrirModal('Chile Pasilla'); return false;"
+           style="display:inline-block;background:#8b0000;color:white;padding:12px 35px;text-decoration:none;border-radius:50px;font-weight:600;letter-spacing:1px;transition:all 0.3s;border:2px solid #8b0000;"
+           onmouseover="this.style.background='transparent'; this.style.color='#8b0000'"
+           onmouseout="this.style.background='#8b0000'; this.style.color='white'">
+           COTIZAR
+        </a>
+    </div>
+
+        <!-- GUJAILLO -->
+    <div class="producto scroll">
+        <img src="img/guajillo-detalle.png" alt="Chile Guajillo">
+        <h3>Chile Guajillo</h3>
+        <a href="#" class="btn-cotizar"
+           onclick="abrirModal('Chile Guajillo'); return false;"
+           style="display:inline-block;background:#8b0000;color:white;padding:12px 35px;text-decoration:none;border-radius:50px;font-weight:600;letter-spacing:1px;transition:all 0.3s;border:2px solid #8b0000;"
+           onmouseover="this.style.background='transparent'; this.style.color='#8b0000'"
+           onmouseout="this.style.background='#8b0000'; this.style.color='white'">
+           COTIZAR
+        </a>
+    </div>
+
+
+
+</div>
+
+<script>
+/* Scroll Reveal estilo Apple */
+const productos = document.querySelectorAll(".producto");
+const header = document.querySelector(".scroll-header");
+
+function reveal(){
+    const trigger = window.innerHeight * 0.85;
+
+    if(header.getBoundingClientRect().top < trigger){
+        header.classList.add("visible");
+    }
+
+    productos.forEach((el,i)=>{
+        if(el.getBoundingClientRect().top < trigger){
+            setTimeout(()=>{ el.classList.add("visible"); }, i*200);
+        }
+    });
+}
+window.addEventListener("scroll",reveal);
+window.addEventListener("load",reveal);
+
+/* Parallax */
+window.addEventListener("scroll", ()=>{
+    document.getElementById("parallax").style.transform =
+        "translateY(" + window.scrollY * 0.3 + "px)";
+});
+
+/* Partículas */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particlesArray = [];
+
+for(let i=0;i<40;i++){
+    particlesArray.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*3+1,
+        speedY:Math.random()*0.5+0.2
+    });
+}
+
+function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particlesArray.forEach(p=>{
+        p.y -= p.speedY;
+        if(p.y < 0) p.y = canvas.height;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.fillStyle="rgba(139,0,0,0.08)";
+        ctx.fill();
+    });
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+
+</section> 
+
+
+
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNA BAJÍO - Nuestra Historia</title>
+
+<style>
+
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Georgia', serif;
+}
+
+/* ===== SECCIÓN CON FONDO ===== */
+.historia-premium{
+    position:relative;
+    padding:140px 8%;
+    background-image:url("img/fondo-valle.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    overflow:hidden;
+}
+
+.historia-premium::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(40,25,18,0.8);
+}
+
+/* CONTENIDO */
+.historia-container{
+    position:relative;
+    max-width:1300px;
+    margin:auto;
+    z-index:2;
+}
+
+/* ENCABEZADO */
+.historia-header{
+    text-align:center;
+    margin-bottom:80px;
+    color:#f5e6d3;
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s ease;
+}
+
+.historia-header.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.historia-header span{
+    color:#d4a373;
+    text-transform:uppercase;
+    letter-spacing:4px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.historia-header h2{
+    font-size:52px;
+    margin:20px 0;
+}
+
+.linea-central{
+    width:800px;
+    height:2px;
+    background:#d4a373;
+    margin:10px auto;
+    border-radius:4px;
+}
+
+/* LAYOUT */
+.historia-contenido{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+}
+
+/* TEXTO */
+.historia-texto{
+    color:#f5e6d3;
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s ease;
+}
+
+.historia-texto.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.historia-texto p{
+    font-size:19px;
+    line-height:1.9;
+    margin-bottom:22px;
+}
+
+/* GALERÍA */
+.galeria{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.galeria img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+    transition:0.5s ease;
+    opacity:0;
+    transform:translateY(40px);
+}
+
+.galeria img.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.galeria img:hover{
+    transform:scale(1.05);
+}
+
+/* TARJETAS */
+.valores{
+    margin-top:90px;
+    display:flex;
+    gap:30px;
+}
+
+.valor{
+    flex:1;
+    padding:35px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.15);
+    color:#fff;
+    box-shadow:0 25px 60px rgba(0,0,0,0.3);
+    transition:0.6s ease;
+    opacity:0;
+    transform:translateY(40px);
+}
+
+.valor.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.valor:hover{
+    transform:translateY(-10px);
+}
+
+.valor h3{
+    margin-bottom:15px;
+    color:#f4d6b1;
+    font-size:20px;
+}
+
+/* SELLO */
+.sello{
+    position:absolute;
+    top:40px;
+    right:40px;
+    width:140px;
+    opacity:0.9;
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+    .historia-contenido{
+        grid-template-columns:1fr;
+    }
+    .valores{
+        flex-direction:column;
+    }
+}
+
+@media(max-width:600px){
+    .galeria{
+        grid-template-columns:1fr;
+    }
+    .historia-header h2{
+        font-size:36px;
+    }
+    .sello{
+        width:100px;
+        top:20px;
+        right:20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<section id="historia-premium" class="historia-premium">
+
+<img src="img/sello.png" class="sello" alt="Sello Hecho en Guanajuato">
+
+<div class="historia-container">
+
+    <div class="historia-header reveal">
+        <span>Tradición del Bajío</span>
+        <h2>NUESTRA HISTORIA</h2>
+        <div class="linea-central"></div>
+    </div>
+
+    <div class="historia-contenido">
+
+        <div class="historia-texto reveal">
+            <p>
+                En el Valle de Jaral, la producción de chile seco
+                es una tradición que combina herencia agrícola y excelencia moderna.
+            </p>
+
+            <p>
+                Desde la siembra hasta el deshidratado,
+                cada cosecha se selecciona cuidadosamente para preservar
+                su color intenso, aroma profundo y calidad premium.
+            </p>
+
+            <p>
+                Nuestra misión es llevar la esencia del campo mexicano
+                a cada cliente, manteniendo viva la identidad
+                y el orgullo agrícola de nuestra tierra.
+            </p>
+        </div>
+
+        <div class="galeria">
+            <img src="img/campo.jpg" class="reveal">
+            <img src="img/secado.jpg" class="reveal">
+            <img src="img/chiles.jpg" class="reveal">
+            <img src="img/proceso.jpg" class="reveal">
+        </div>
+
+    </div>
+
+    <div class="valores">
+        <div class="valor reveal">
+            <h3> 🌽 Tradición</h3>
+            <p>Herencia agrícola transmitida por generaciones.</p>
+        </div>
+        <div class="valor reveal">
+            <h3>☀ Secado Controlado</h3>
+            <p>Proceso que conserva sabor y textura natural.</p>
+        </div>
+        <div class="valor reveal">
+            <h3>🌶 Calidad Premium</h3>
+            <p>Selección rigurosa que garantiza excelencia.</p>
+        </div>
+    </div>
+
+</div>
+</section>
+
+<script>
+function revealOnScroll(){
+    const reveals = document.querySelectorAll('.reveal');
+    const windowHeight = window.innerHeight;
+
+    reveals.forEach(el=>{
+        const elementTop = el.getBoundingClientRect().top;
+        if(elementTop < windowHeight - 100){
+            el.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+<section id="contacto-ultra">
+
+<style>
+
+/* ===== SECCION ULTRA LUJO ===== */
+#contacto-ultra{
+    position:relative;
+    padding:150px 20px;
+    background:radial-gradient(circle at 20% 20%, #3a1f18, #140b08 60%);
+    overflow:hidden;
+    color:#fff;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* TEXTURA */
+#contacto-ultra::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-image:url("img/textura-premium.png");
+    opacity:0.04;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+/* SELLO */
+.sello-ultra{
+    position:absolute;
+    top:20px;
+    right:6%;
+    width:140px;
+    opacity:0.7;
+}
+
+@keyframes rotar{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+/* CONTENEDOR */
+.contacto-wrap{
+    max-width:1300px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+}
+
+/* INFO */
+.contacto-info{
+    opacity:0;
+    transform:translateY(70px);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.contacto-info.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.contacto-info span{
+    color:#d4a373;
+    letter-spacing:6px;
+    font-size:13px;
+    text-transform:uppercase;
+}
+
+.contacto-info h2{
+    font-size:3.2rem;
+    margin:20px 0;
+}
+
+.contacto-info p{
+    color:#ccc;
+    line-height:1.9;
+    margin-bottom:25px;
+}
+
+/* FORM CARD */
+.form-ultra{
+    padding:55px;
+    border-radius:35px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 40px 100px rgba(0,0,0,0.6);
+    opacity:0;
+    transform:translateY(70px);
+    transition:1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.form-ultra.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* INPUTS */
+.form-ultra input,
+.form-ultra textarea{
+    width:100%;
+    padding:16px;
+    margin-bottom:20px;
+    border-radius:14px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    font-size:14px;
+}
+
+.form-ultra textarea{
+    height:120px;
+    resize:none;
+}
+
+/* BOTON */
+.btn-enviar-ultra{
+    width:100%;
+    padding:15px;
+    border-radius:50px;
+    background:#8b0000;
+    color:#fff;
+    border:2px solid #8b0000;
+    font-weight:600;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.btn-enviar-ultra:hover{
+    background:transparent;
+}
+
+/* ANIMACION ENVIO */
+.enviado{
+    background:#25D366 !important;
+    border-color:#25D366 !important;
+    transform:scale(1.05);
+}
+
+/* MAPA */
+.mapa{
+    margin-top:40px;
+    border-radius:30px;
+    overflow:hidden;
+    box-shadow:0 25px 70px rgba(0,0,0,0.6);
+}
+
+.mapa iframe{
+    width:100%;
+    height:300px;
+    border:0;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .contacto-wrap{
+        grid-template-columns:1fr;
+    }
+    .contacto-info h2{
+        font-size:2.2rem;
+    }
+    .sello-ultra{
+        display:none;
+    }
+}
+
+
+.contacto-info {
+    max-width: 600px;
+}
+
+.contacto-subtitulo {
+    color: #8b0000;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.contacto-titulo {
+    font-size: 36px;
+    margin: 15px 0;
+    color: #111;
+}
+
+.contacto-texto {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.contacto-direcciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.direccion-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.direccion-item .icono {
+    color: #8b0000;
+    font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contacto-titulo {
+        font-size: 28px;
+    }
+
+    .contacto-texto {
+        font-size: 14px;
+    }
+
+    .direccion-item {
+        font-size: 14px;
+    }
+}
+
+
+</style>
+
+<!-- SELLO -->
+<img src="img/sello-premium.png" class="sello-ultra">
+
+<div class="contacto-wrap">
+
+    <!-- INFO + MAPA -->
+    <div class="contacto-info">
+        <span>Distribución Nacional</span>
+        <h2>CONTÁCTANOS</h2>
+        <p>
+            Comercializamos chiles secos premium desde el corazón del Bajío 
+            hacia la Central de Abastos CDMX y todo México.
+        </p>
+       
+
+        <div class="contacto-direcciones">
+        <div class="direccion-item">
+            <span class="icono">📍</span>
+            <span>Central de Abastos, Bodega A-91, CDMX</span>
+        </div>
+
+        <div class="direccion-item">
+            <span class="icono">📍</span>
+            <span>Calle Independencia s/n, San Bartolo de Berrios, Gto</span>
+        </div>
+    </div>
+
+
+
+        <div class="mapa">
+            <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15055.553059248254!2d-99.10829364458007!3d19.373990199999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fdd983c087d1%3A0xb125d7e803a1928b!2sCentral%20de%20Abasto%20CDMX!5e0!3m2!1ses-419!2smx!4v1772144269311!5m2!1ses-419!2smx">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="form-ultra">
+        <form id="formContacto">
+            <input name="nombre" type="text" placeholder="Nombre completo" required>
+            <input name="email" type="email" placeholder="Correo electrónico" required>
+            <input name="telefono" type="tel" placeholder="Teléfono">
+            <textarea name="mensaje" placeholder="Escribe tu mensaje..." required></textarea>
+            <button type="submit" class="btn-enviar-ultra">ENVIAR MENSAJE</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+
+/* SCROLL TIPO APPLE */
+const contactoUltra = document.querySelectorAll('.contacto-info, .form-ultra');
+
+function mostrarUltra(){
+    const trigger = window.innerHeight * 0.85;
+    contactoUltra.forEach(el=>{
+        const top = el.getBoundingClientRect().top;
+        if(top < trigger){
+            el.classList.add('visible');
+        }
+    });
+}
+
+window.addEventListener('scroll', mostrarUltra);
+mostrarUltra();
+
+/* ANIMACION ENVIO */
+document.getElementById("formContacto").addEventListener("submit", function(e){
+    e.preventDefault();
+    const btn = this.querySelector("button");
+    btn.classList.add("enviado");
+    btn.innerHTML = "✓ MENSAJE ENVIADO";
+
+    setTimeout(()=>{
+        btn.classList.remove("enviado");
+        btn.innerHTML = "ENVIAR MENSAJE";
+        this.reset();
+    },3000);
+});
+
+</script>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<footer id="footer-ultra">
+
+<style>
+
+/* ===== FOOTER ULTRA ===== */
+#footer-ultra{
+    position:relative;
+    background:linear-gradient(180deg,#0a0a0a,#050505);
+    padding:80px 0 40px;
+    border-top:1px solid #8b0000;
+    color:#fff;
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* EFECTO LUZ SUPERIOR */
+#footer-ultra::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:600px;
+    height:200px;
+    background:radial-gradient(circle,#8b0000 0%,transparent 70%);
+    opacity:0.08;
+    pointer-events:none;
+}
+
+/* CONTENEDOR */
+.footer-container{
+    max-width:1200px;
+    margin:auto;
+    padding:0 20px;
+}
+
+/* TOP */
+.footer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-bottom:60px;
+}
+
+/* LOGO */
+.footer-logo{
+    font-size:32px;
+    font-weight:800;
+    letter-spacing:4px;
+    text-transform:uppercase;
+}
+
+/* NAV */
+.footer-nav{
+    display:flex;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.footer-nav a{
+    color:#ccc;
+    text-decoration:none;
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:0.3s;
+    position:relative;
+}
+
+.footer-nav a::after{
+    content:"";
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:0%;
+    height:2px;
+    background:#8b0000;
+    transition:0.3s;
+}
+
+.footer-nav a:hover{
+    color:#fff;
+}
+
+.footer-nav a:hover::after{
+    width:100%;
+}
+
+/* REDES */
+.footer-redes{
+    display:flex;
+    gap:18px;
+}
+
+.footer-redes a{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#1a1a1a;
+    border:1px solid #222;
+    transition:0.4s cubic-bezier(.19,1,.22,1);
+}
+
+.footer-redes a:hover{
+    background:#8b0000;
+    transform:translateY(-6px) scale(1.1);
+    box-shadow:0 10px 30px rgba(139,0,0,0.5);
+}
+
+/* INFO */
+.footer-info{
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    flex-wrap:wrap;
+    margin-bottom:50px;
+    padding:25px 0;
+    border-top:1px solid #1a1a1a;
+    border-bottom:1px solid #1a1a1a;
+}
+
+.footer-info div{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#bbb;
+    font-size:15px;
+}
+
+.footer-info a{
+    color:#bbb;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.footer-info a:hover{
+    color:#fff;
+}
+
+/* COPYRIGHT */
+.footer-copy{
+    text-align:center;
+    color:#666;
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .footer-top{
+        flex-direction:column;
+        text-align:center;
+    }
+    .footer-nav{
+        justify-content:center;
+    }
+    .footer-info{
+        gap:30px;
+    }
+}
+
+</style>
+
+<div class="footer-container">
+
+    <div class="footer-top">
+        
+        <div class="footer-logo">LUNABAJIO</div>
+
+        <div class="footer-nav">
+            <a href="#historia-premium">HISTORIA</a>
+            <a href="#catalago">CATÁLOGO</a>
+            <a href="#contacto-ultra">CONTACTO</a>
+        </div>
+
+        <div class="footer-redes">
+
+            <a href="mailto:lunabajio.secos@gmail.com">
+                <!-- EMAIL -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+            </a>
+
+            <a href="https://instagram.com/lunabajio_secos" target="_blank">
+                <!-- INSTAGRAM -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1"/></svg>
+            </a>
+
+            <a href="https://tiktok.com/@luna.secosgto12" target="_blank">
+                <!-- TIKTOK -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="white" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-info">
+
+        <div>
+            ✉️
+            <a href="mailto:lunabajio.secos@gmail.com">lunabajio.secos@gmail.com</a>
+        </div>
+
+        <div>
+            📞
+            <a href="tel:+524401480360">+52 (440) 148 0360</a>
+        </div>
+
+        <div>
+            📍 Central de Abastos, Bodega A-91, CDMX.
+        </div>
+
+    </div>
+
+    <div class="footer-copy">
+        © 2024 LUNABAJIO · TODOS LOS DERECHOS RESERVADOS
+    </div>
+
+</div>
+
+</footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+   emailjs.init("AtoQDmrcdgCX41Cw9");
+})();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ===== MODAL COTIZAR WHATSAPP ===== -->
+
+<style>
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transition:.4s ease;
+  z-index:9999;
+}
+.modal-overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+.modal-box{
+  background:#111;
+  border:1px solid #8b0000;
+  border-radius:20px;
+  padding:40px;
+  width:95%;
+  max-width:500px;
+  transform:translateY(40px);
+  transition:.4s;
+  color:#fff;
+}
+.modal-overlay.active .modal-box{
+  transform:translateY(0);
+}
+.modal-box h2{
+  text-align:center;
+  margin-bottom:20px;
+}
+.modal-box input,
+.modal-box textarea{
+  width:100%;
+  margin-bottom:15px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #333;
+  background:#1a1a1a;
+  color:#fff;
+}
+.modal-box button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:50px;
+  background:#8b0000;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+.modal-box button:hover{
+  background:#a00000;
+}
+.modal-close{
+  position:absolute;
+  right:20px;
+  top:15px;
+  cursor:pointer;
+  font-size:18px;
+}
+</style>
+
+<div id="modalCotizar" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-close" onclick="cerrarModal()">✕</div>
+    <h2>Cotizar <span id="productoNombre"></span></h2>
+
+    <form id="formCotizar">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="tel" name="telefono" placeholder="Teléfono" required>
+      <input type="email" name="email" placeholder="Correo electrónico" required>
+      <input type="number" name="kilos" placeholder="Kilos requeridos" required>
+      <textarea name="comentarios" placeholder="Comentarios adicionales"></textarea>
+
+      <button type="submit">Enviar por WhatsApp</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+// ABRIR MODAL
+function abrirModal(producto){
+  document.getElementById("productoNombre").textContent = producto;
+  document.getElementById("modalCotizar").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+// CERRAR MODAL
+function cerrarModal(){
+  document.getElementById("modalCotizar").classList.remove("active");
+  document.body.style.overflow = "auto";
+}
+
+// ENVIAR A WHATSAPP
+document.getElementById("formCotizar").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const producto = document.getElementById("productoNombre").textContent;
+  const nombre = this.nombre.value;
+  const telefono = this.telefono.value;
+  const email = this.email.value;
+  const kilos = this.kilos.value;
+  const comentarios = this.comentarios.value;
+
+  const numero = "524401480360"; // TU NUMERO
+
+  const mensaje =
+`🔥 NUEVA COTIZACIÓN LUNABAJIO
+
+Producto: ${producto}
+Nombre: ${nombre}
+Teléfono: ${telefono}
+Email: ${email}
+Kilos solicitados: ${kilos}
+
+Comentarios:
+${comentarios || "Sin comentarios"}
+
+— Enviado desde tu sitio web`;
+
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+
+  cerrarModal();
+  this.reset();
+});
+</script>
+
+
+
+
+
+
+
+
+<script>
+document.getElementById("formContacto").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const boton = this.querySelector("button");
+    boton.disabled = true;
+    boton.innerText = "Enviando...";
+
+    const templateParams = {
+        nombre: this.nombre.value,
+        email: this.email.value,
+        telefono: this.telefono.value,
+        mensaje: this.mensaje.value
+    };
+
+    emailjs.send(
+        "service_7gu0kmg",
+        "template_9isvlpa",
+        templateParams
+    )
+    .then(() => {
+        alert("Mensaje enviado correctamente 🔥");
+        this.reset();
+    })
+    .catch((error) => {
+        alert("Error al enviar. Intenta nuevamente.");
+        console.log(error);
+    })
+    .finally(() => {
+        boton.disabled = false;
+        boton.innerText = "Enviar Mensaje";
+    });
+});
+</script>
+
+
+
+</body>
+</html>
